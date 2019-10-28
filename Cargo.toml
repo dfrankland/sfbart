@@ -1,7 +1,9 @@
 [package]
 name = "sfbart"
+description = "Client and real-time service for BART APIs"
 version = "0.1.0"
-authors = ["Dylan Frankland <dfrankland@users.noreply.github.com>"]
+authors = ["Dylan Frankland <dylan@frankland.io>"]
+license = "MIT"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
