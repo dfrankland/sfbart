@@ -42,7 +42,7 @@ pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<Count> {
 }
 
 #[tokio::test]
-async fn version() {
+async fn count() {
     let reponse = call::<&str>(None).await.unwrap();
     assert!(reponse.traincount >= 0);
 }

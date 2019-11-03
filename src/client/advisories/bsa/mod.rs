@@ -59,7 +59,7 @@ pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<BsaResponse> {
 }
 
 #[tokio::test]
-async fn version() {
+async fn bsa() {
     let reponse = call::<&str>(None).await.unwrap();
     assert_eq!(reponse.time.is_empty(), false);
 }
