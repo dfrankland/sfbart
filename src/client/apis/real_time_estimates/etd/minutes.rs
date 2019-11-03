@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use std::{convert::TryFrom, str::FromStr};
+use std::{convert::TryFrom, str::FromStr, fmt};
 
 pub const LEAVING_STRING: &str = "Leaving";
 pub const LEAVING_NUMBER: i32 = 0;
@@ -33,17 +33,19 @@ impl EtdEstimateMinutes {
         EtdEstimateMinutes::Minutes(number)
     }
 
-    pub fn to_string(&self) -> String {
-        match self {
-            EtdEstimateMinutes::Leaving => LEAVING_STRING.to_string(),
-            EtdEstimateMinutes::Minutes(number) => number.to_string(),
-        }
-    }
-
     pub fn to_number(&self) -> i32 {
         match self {
             EtdEstimateMinutes::Leaving => LEAVING_NUMBER,
             EtdEstimateMinutes::Minutes(number) => *number,
+        }
+    }
+}
+
+impl fmt::Display for EtdEstimateMinutes {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            EtdEstimateMinutes::Leaving => write!(f, "{}", LEAVING_STRING),
+            EtdEstimateMinutes::Minutes(number) => write!(f, "{}", number),
         }
     }
 }
