@@ -1,6 +1,6 @@
-use std::{str::FromStr, convert::TryFrom};
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use std::{convert::TryFrom, str::FromStr};
 
 pub const LEAVING_STRING: &str = "Leaving";
 pub const LEAVING_NUMBER: i32 = 0;
@@ -47,7 +47,6 @@ impl EtdEstimateMinutes {
         }
     }
 }
-
 
 impl TryFrom<String> for EtdEstimateMinutes {
     type Error = anyhow::Error;

@@ -1,10 +1,13 @@
 pub mod minutes;
 
-use crate::client::{constants::{direction::Direction, station::Station, PUBLIC_KEY, color::Color}, serde_helpers::from_str};
+use self::minutes::EtdEstimateMinutes;
+use crate::client::{
+    constants::{color::Color, direction::Direction, station::Station, PUBLIC_KEY},
+    serde_helpers::from_str,
+};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};
-use self::minutes::EtdEstimateMinutes;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EtdEstimate {

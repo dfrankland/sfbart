@@ -33,7 +33,6 @@ pub enum Color {
     White,
 }
 
-
 impl Color {
     pub fn from_code<T: AsRef<str>>(code: T) -> Result<Color> {
         match code.as_ref() {

@@ -1,5 +1,5 @@
+pub mod color;
 pub mod direction;
 pub mod station;
-pub mod color;
 
 pub const PUBLIC_KEY: &str = "MW9S-E7SL-26DU-VV8V";
