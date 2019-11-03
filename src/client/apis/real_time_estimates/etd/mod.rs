@@ -3,7 +3,7 @@ pub mod minutes;
 use self::minutes::EtdEstimateMinutes;
 use crate::client::{
     constants::{color::Color, direction::Direction, station::Station, PUBLIC_KEY},
-    serde_helpers::from_str,
+    serde_helpers::{from_str, bool_from_number_str},
 };
 use anyhow::Result;
 use reqwest;
@@ -19,7 +19,8 @@ pub struct EtdEstimate {
     length: i32,
     color: Color,
     hexcolor: Color,
-    bikeflag: String, // Should be boolean
+    #[serde(deserialize_with = "bool_from_number_str")]
+    bikeflag: bool,
     #[serde(deserialize_with = "from_str")]
     delay: i32,
 }
@@ -30,7 +31,8 @@ pub struct Etd {
     // Springs/South Fremont")
     pub destination: String,
     pub abbreviation: Station,
-    pub limited: String, // Should be boolean
+    #[serde(deserialize_with = "bool_from_number_str")]
+    pub limited: bool,
     pub estimate: Vec<EtdEstimate>,
 }
 

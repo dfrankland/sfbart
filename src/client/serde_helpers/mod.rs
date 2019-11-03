@@ -11,6 +11,15 @@ where
     T::from_str(&s).map_err(serde::de::Error::custom)
 }
 
+pub fn bool_from_number_str<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s = String::deserialize(deserializer)?;
+    let number = u8::from_str(&s).map_err(serde::de::Error::custom)?;
+    Ok(number != 0)
+}
+
 pub fn extract_cdata_section<'de, D>(deserializer: D) -> std::result::Result<String, D::Error>
 where
     D: Deserializer<'de>,
