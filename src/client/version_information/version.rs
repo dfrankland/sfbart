@@ -18,7 +18,7 @@ struct Root {
 }
 
 pub fn url<T: AsRef<str>>(key: Option<T>) -> String {
-    format!("https://api.bart.gov/api/version.aspx?cmd=stns&key={}&json=y", key.map(|k| String::from(k.as_ref())).unwrap_or(String::from(PUBLIC_KEY)))
+    format!("https://api.bart.gov/api/version.aspx?cmd=stns&key={}&json=y", key.map(|k| String::from(k.as_ref())).unwrap_or_else(|| String::from(PUBLIC_KEY)))
 }
 
 pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<Version> {

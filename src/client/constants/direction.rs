@@ -2,11 +2,11 @@ use anyhow::{Result, anyhow};
 use serde::{Serialize, Serializer, Deserialize, Deserializer};
 use std::convert::TryFrom;
 
-pub const DIRECTION_CODE_NORTHBOUND: &'static str = "n";
-pub const DIRECTION_CODE_SOUTHBOUND: &'static str = "s";
+pub const DIRECTION_CODE_NORTHBOUND: &str = "n";
+pub const DIRECTION_CODE_SOUTHBOUND: &str = "s";
 
-pub const DIRECTION_FULL_NORTHBOUND: &'static str = "North";
-pub const DIRECTION_FULL_SOUTHBOUND: &'static str = "South";
+pub const DIRECTION_FULL_NORTHBOUND: &str = "North";
+pub const DIRECTION_FULL_SOUTHBOUND: &str = "South";
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Direction {
@@ -31,14 +31,14 @@ impl Direction {
         }
     }
 
-    pub fn to_code(&self) -> &'static str {
+    pub fn to_code(&self) -> &str {
         match self {
             Direction::Northbound => DIRECTION_CODE_NORTHBOUND,
             Direction::Southbound => DIRECTION_CODE_SOUTHBOUND,
         }
     }
 
-    pub fn to_full(&self) -> &'static str {
+    pub fn to_full(&self) -> &str {
         match self {
             Direction::Northbound => DIRECTION_FULL_NORTHBOUND,
             Direction::Southbound => DIRECTION_FULL_SOUTHBOUND,
@@ -47,20 +47,20 @@ impl Direction {
 }
 
 impl TryFrom<String> for Direction {
-    type Error = &'static str;
+    type Error = anyhow::Error;
 
     fn try_from(direction_string: String) -> std::result::Result<Self, Self::Error> {
         let code = Direction::from_code(&direction_string);
-        if code.is_ok() {
-            return Ok(code.unwrap());
+        if let Ok(direction) = code {
+            return Ok(direction);
         }
 
         let full = Direction::from_full(&direction_string);
-        if full.is_ok() {
-            return Ok(full.unwrap());
+        if let Ok(direction) = full {
+            return Ok(direction);
         }
 
-        Err("Does not match any direction")
+        full
     }
 }
 
@@ -77,6 +77,6 @@ impl<'de> Deserialize<'de> for Direction {
         where D: Deserializer<'de>
     {
         let s = String::deserialize(deserializer)?;
-        Direction::try_from(s).map_err(|e| serde::de::Error::custom(e))
+        Direction::try_from(s).map_err(serde::de::Error::custom)
     }
 }

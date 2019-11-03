@@ -2,103 +2,103 @@ use anyhow::{Result, anyhow};
 use serde::{Serialize, Serializer, Deserialize, Deserializer};
 use std::convert::TryFrom;
 
-pub const STATION_ABBR_OAKLAND_CITY_CENTER12TH_ST: &'static str = "12th";
-pub const STATION_ABBR_SF_MISSION16TH_ST: &'static str = "16th";
-pub const STATION_ABBR_OAKLAND19TH_ST: &'static str = "19th";
-pub const STATION_ABBR_SF_MISSION24TH_ST: &'static str = "24th";
-pub const STATION_ABBR_ASHBY: &'static str = "ashb";
-pub const STATION_ABBR_ANTIOCH: &'static str = "antc";
-pub const STATION_ABBR_BALBOA_PARK: &'static str = "balb";
-pub const STATION_ABBR_BAY_FAIR: &'static str = "bayf";
-pub const STATION_ABBR_CASTRO_VALLEY: &'static str = "cast";
-pub const STATION_ABBR_CIVIC_CENTER: &'static str = "civc";
-pub const STATION_ABBR_COLISEUM: &'static str = "cols";
-pub const STATION_ABBR_COLMA: &'static str = "colm";
-pub const STATION_ABBR_CONCORD: &'static str = "conc";
-pub const STATION_ABBR_DALY_CITY: &'static str = "daly";
-pub const STATION_ABBR_DOWNTOWN_BERKELEY: &'static str = "dbrk";
-pub const STATION_ABBR_DUBLIN_PLEASANTON: &'static str = "dubl";
-pub const STATION_ABBR_EL_CERRITO_DEL_NORTE: &'static str = "deln";
-pub const STATION_ABBR_EL_CERRITO_PLAZA: &'static str = "plza";
-pub const STATION_ABBR_EMBARCADERO: &'static str = "embr";
-pub const STATION_ABBR_FREMONT: &'static str = "frmt";
-pub const STATION_ABBR_FRUITVALE: &'static str = "ftvl";
-pub const STATION_ABBR_GLEN_PARK: &'static str = "glen";
-pub const STATION_ABBR_HAYWARD: &'static str = "hayw";
-pub const STATION_ABBR_LAFAYETTE: &'static str = "lafy";
-pub const STATION_ABBR_LAKE_MERRITT: &'static str = "lake";
-pub const STATION_ABBR_MAC_ARTHUR: &'static str = "mcar";
-pub const STATION_ABBR_MILLBRAE: &'static str = "mlbr";
-pub const STATION_ABBR_MONTGOMERY_ST: &'static str = "mont";
-pub const STATION_ABBR_NORTH_BERKELEY: &'static str = "nbrk";
-pub const STATION_ABBR_NORTH_CONCORD_MARTINEZ: &'static str = "ncon";
-pub const STATION_ABBR_OAKLAND_INTL_AIRPORT: &'static str = "oakl";
-pub const STATION_ABBR_ORINDA: &'static str = "orin";
-pub const STATION_ABBR_PITTSBURG_BAY_POINT: &'static str = "pitt";
-pub const STATION_ABBR_PITTSBURG_CENTER: &'static str = "pctr";
-pub const STATION_ABBR_PLEASANT_HILL: &'static str = "phil";
-pub const STATION_ABBR_POWELL_ST: &'static str = "powl";
-pub const STATION_ABBR_RICHMOND: &'static str = "rich";
-pub const STATION_ABBR_ROCKRIDGE: &'static str = "rock";
-pub const STATION_ABBR_SAN_BRUNO: &'static str = "sbrn";
-pub const STATION_ABBR_SAN_FRANCISCO_INTL_AIRPORT: &'static str = "sfia";
-pub const STATION_ABBR_SAN_LEANDRO: &'static str = "sanl";
-pub const STATION_ABBR_SOUTH_HAYWARD: &'static str = "shay";
-pub const STATION_ABBR_SOUTH_SAN_FRANCISCO: &'static str = "ssan";
-pub const STATION_ABBR_UNION_CITY: &'static str = "ucty";
-pub const STATION_ABBR_WARM_SPRINGS_SOUTH_FREMONT: &'static str = "warm";
-pub const STATION_ABBR_WALNUT_CREEK: &'static str = "wcrk";
-pub const STATION_ABBR_WEST_DUBLIN: &'static str = "wdub";
-pub const STATION_ABBR_WEST_OAKLAND: &'static str = "woak";
+pub const STATION_ABBR_OAKLAND_CITY_CENTER12TH_ST: &str = "12th";
+pub const STATION_ABBR_SF_MISSION16TH_ST: &str = "16th";
+pub const STATION_ABBR_OAKLAND19TH_ST: &str = "19th";
+pub const STATION_ABBR_SF_MISSION24TH_ST: &str = "24th";
+pub const STATION_ABBR_ASHBY: &str = "ashb";
+pub const STATION_ABBR_ANTIOCH: &str = "antc";
+pub const STATION_ABBR_BALBOA_PARK: &str = "balb";
+pub const STATION_ABBR_BAY_FAIR: &str = "bayf";
+pub const STATION_ABBR_CASTRO_VALLEY: &str = "cast";
+pub const STATION_ABBR_CIVIC_CENTER: &str = "civc";
+pub const STATION_ABBR_COLISEUM: &str = "cols";
+pub const STATION_ABBR_COLMA: &str = "colm";
+pub const STATION_ABBR_CONCORD: &str = "conc";
+pub const STATION_ABBR_DALY_CITY: &str = "daly";
+pub const STATION_ABBR_DOWNTOWN_BERKELEY: &str = "dbrk";
+pub const STATION_ABBR_DUBLIN_PLEASANTON: &str = "dubl";
+pub const STATION_ABBR_EL_CERRITO_DEL_NORTE: &str = "deln";
+pub const STATION_ABBR_EL_CERRITO_PLAZA: &str = "plza";
+pub const STATION_ABBR_EMBARCADERO: &str = "embr";
+pub const STATION_ABBR_FREMONT: &str = "frmt";
+pub const STATION_ABBR_FRUITVALE: &str = "ftvl";
+pub const STATION_ABBR_GLEN_PARK: &str = "glen";
+pub const STATION_ABBR_HAYWARD: &str = "hayw";
+pub const STATION_ABBR_LAFAYETTE: &str = "lafy";
+pub const STATION_ABBR_LAKE_MERRITT: &str = "lake";
+pub const STATION_ABBR_MAC_ARTHUR: &str = "mcar";
+pub const STATION_ABBR_MILLBRAE: &str = "mlbr";
+pub const STATION_ABBR_MONTGOMERY_ST: &str = "mont";
+pub const STATION_ABBR_NORTH_BERKELEY: &str = "nbrk";
+pub const STATION_ABBR_NORTH_CONCORD_MARTINEZ: &str = "ncon";
+pub const STATION_ABBR_OAKLAND_INTL_AIRPORT: &str = "oakl";
+pub const STATION_ABBR_ORINDA: &str = "orin";
+pub const STATION_ABBR_PITTSBURG_BAY_POINT: &str = "pitt";
+pub const STATION_ABBR_PITTSBURG_CENTER: &str = "pctr";
+pub const STATION_ABBR_PLEASANT_HILL: &str = "phil";
+pub const STATION_ABBR_POWELL_ST: &str = "powl";
+pub const STATION_ABBR_RICHMOND: &str = "rich";
+pub const STATION_ABBR_ROCKRIDGE: &str = "rock";
+pub const STATION_ABBR_SAN_BRUNO: &str = "sbrn";
+pub const STATION_ABBR_SAN_FRANCISCO_INTL_AIRPORT: &str = "sfia";
+pub const STATION_ABBR_SAN_LEANDRO: &str = "sanl";
+pub const STATION_ABBR_SOUTH_HAYWARD: &str = "shay";
+pub const STATION_ABBR_SOUTH_SAN_FRANCISCO: &str = "ssan";
+pub const STATION_ABBR_UNION_CITY: &str = "ucty";
+pub const STATION_ABBR_WARM_SPRINGS_SOUTH_FREMONT: &str = "warm";
+pub const STATION_ABBR_WALNUT_CREEK: &str = "wcrk";
+pub const STATION_ABBR_WEST_DUBLIN: &str = "wdub";
+pub const STATION_ABBR_WEST_OAKLAND: &str = "woak";
 
-pub const STATION_FULL_OAKLAND_CITY_CENTER12TH_ST: &'static str = "12th St. Oakland City Center";
-pub const STATION_FULL_SF_MISSION16TH_ST: &'static str = "16th St. Mission (SF)";
-pub const STATION_FULL_OAKLAND19TH_ST: &'static str = "19th St. Oakland";
-pub const STATION_FULL_SF_MISSION24TH_ST: &'static str = "24th St. Mission (SF)";
-pub const STATION_FULL_ASHBY: &'static str = "Ashby (Berkeley)";
-pub const STATION_FULL_ANTIOCH: &'static str = "Antioch";
-pub const STATION_FULL_BALBOA_PARK: &'static str = "Balboa Park (SF)";
-pub const STATION_FULL_BAY_FAIR: &'static str = "Bay Fair (San Leandro)";
-pub const STATION_FULL_CASTRO_VALLEY: &'static str = "Castro Valley";
-pub const STATION_FULL_CIVIC_CENTER: &'static str = "Civic Center (SF)";
-pub const STATION_FULL_COLISEUM: &'static str = "Coliseum";
-pub const STATION_FULL_COLMA: &'static str = "Colma";
-pub const STATION_FULL_CONCORD: &'static str = "Concord";
-pub const STATION_FULL_DALY_CITY: &'static str = "Daly City";
-pub const STATION_FULL_DOWNTOWN_BERKELEY: &'static str = "Downtown Berkeley";
-pub const STATION_FULL_DUBLIN_PLEASANTON: &'static str = "Dublin/Pleasanton";
-pub const STATION_FULL_EL_CERRITO_DEL_NORTE: &'static str = "El Cerrito del Norte";
-pub const STATION_FULL_EL_CERRITO_PLAZA: &'static str = "El Cerrito Plaza";
-pub const STATION_FULL_EMBARCADERO: &'static str = "Embarcadero (SF)";
-pub const STATION_FULL_FREMONT: &'static str = "Fremont";
-pub const STATION_FULL_FRUITVALE: &'static str = "Fruitvale (Oakland)";
-pub const STATION_FULL_GLEN_PARK: &'static str = "Glen Park (SF)";
-pub const STATION_FULL_HAYWARD: &'static str = "Hayward";
-pub const STATION_FULL_LAFAYETTE: &'static str = "Lafayette";
-pub const STATION_FULL_LAKE_MERRITT: &'static str = "Lake Merritt (Oakland)";
-pub const STATION_FULL_MAC_ARTHUR: &'static str = "MacArthur (Oakland)";
-pub const STATION_FULL_MILLBRAE: &'static str = "Millbrae";
-pub const STATION_FULL_MONTGOMERY_ST: &'static str = "Montgomery St. (SF)";
-pub const STATION_FULL_NORTH_BERKELEY: &'static str = "North Berkeley";
-pub const STATION_FULL_NORTH_CONCORD_MARTINEZ: &'static str = "North Concord/Martinez";
-pub const STATION_FULL_OAKLAND_INTL_AIRPORT: &'static str = "Oakland Int'l Airport";
-pub const STATION_FULL_ORINDA: &'static str = "Orinda";
-pub const STATION_FULL_PITTSBURG_BAY_POINT: &'static str = "Pittsburg/Bay Point";
-pub const STATION_FULL_PITTSBURG_CENTER: &'static str = "Pittsburg Center";
-pub const STATION_FULL_PLEASANT_HILL: &'static str = "Pleasant Hill";
-pub const STATION_FULL_POWELL_ST: &'static str = "Powell St. (SF)";
-pub const STATION_FULL_RICHMOND: &'static str = "Richmond";
-pub const STATION_FULL_ROCKRIDGE: &'static str = "Rockridge (Oakland)";
-pub const STATION_FULL_SAN_BRUNO: &'static str = "San Bruno";
-pub const STATION_FULL_SAN_FRANCISCO_INTL_AIRPORT: &'static str = "San Francisco Int'l Airport";
-pub const STATION_FULL_SAN_LEANDRO: &'static str = "San Leandro";
-pub const STATION_FULL_SOUTH_HAYWARD: &'static str = "South Hayward";
-pub const STATION_FULL_SOUTH_SAN_FRANCISCO: &'static str = "South San Francisco";
-pub const STATION_FULL_UNION_CITY: &'static str = "Union City";
-pub const STATION_FULL_WARM_SPRINGS_SOUTH_FREMONT: &'static str = "Warm Springs/South Fremont";
-pub const STATION_FULL_WALNUT_CREEK: &'static str = "Walnut Creek";
-pub const STATION_FULL_WEST_DUBLIN: &'static str = "West Dublin";
-pub const STATION_FULL_WEST_OAKLAND: &'static str = "West Oakland";
+pub const STATION_FULL_OAKLAND_CITY_CENTER12TH_ST: &str = "12th St. Oakland City Center";
+pub const STATION_FULL_SF_MISSION16TH_ST: &str = "16th St. Mission (SF)";
+pub const STATION_FULL_OAKLAND19TH_ST: &str = "19th St. Oakland";
+pub const STATION_FULL_SF_MISSION24TH_ST: &str = "24th St. Mission (SF)";
+pub const STATION_FULL_ASHBY: &str = "Ashby (Berkeley)";
+pub const STATION_FULL_ANTIOCH: &str = "Antioch";
+pub const STATION_FULL_BALBOA_PARK: &str = "Balboa Park (SF)";
+pub const STATION_FULL_BAY_FAIR: &str = "Bay Fair (San Leandro)";
+pub const STATION_FULL_CASTRO_VALLEY: &str = "Castro Valley";
+pub const STATION_FULL_CIVIC_CENTER: &str = "Civic Center (SF)";
+pub const STATION_FULL_COLISEUM: &str = "Coliseum";
+pub const STATION_FULL_COLMA: &str = "Colma";
+pub const STATION_FULL_CONCORD: &str = "Concord";
+pub const STATION_FULL_DALY_CITY: &str = "Daly City";
+pub const STATION_FULL_DOWNTOWN_BERKELEY: &str = "Downtown Berkeley";
+pub const STATION_FULL_DUBLIN_PLEASANTON: &str = "Dublin/Pleasanton";
+pub const STATION_FULL_EL_CERRITO_DEL_NORTE: &str = "El Cerrito del Norte";
+pub const STATION_FULL_EL_CERRITO_PLAZA: &str = "El Cerrito Plaza";
+pub const STATION_FULL_EMBARCADERO: &str = "Embarcadero (SF)";
+pub const STATION_FULL_FREMONT: &str = "Fremont";
+pub const STATION_FULL_FRUITVALE: &str = "Fruitvale (Oakland)";
+pub const STATION_FULL_GLEN_PARK: &str = "Glen Park (SF)";
+pub const STATION_FULL_HAYWARD: &str = "Hayward";
+pub const STATION_FULL_LAFAYETTE: &str = "Lafayette";
+pub const STATION_FULL_LAKE_MERRITT: &str = "Lake Merritt (Oakland)";
+pub const STATION_FULL_MAC_ARTHUR: &str = "MacArthur (Oakland)";
+pub const STATION_FULL_MILLBRAE: &str = "Millbrae";
+pub const STATION_FULL_MONTGOMERY_ST: &str = "Montgomery St. (SF)";
+pub const STATION_FULL_NORTH_BERKELEY: &str = "North Berkeley";
+pub const STATION_FULL_NORTH_CONCORD_MARTINEZ: &str = "North Concord/Martinez";
+pub const STATION_FULL_OAKLAND_INTL_AIRPORT: &str = "Oakland Int'l Airport";
+pub const STATION_FULL_ORINDA: &str = "Orinda";
+pub const STATION_FULL_PITTSBURG_BAY_POINT: &str = "Pittsburg/Bay Point";
+pub const STATION_FULL_PITTSBURG_CENTER: &str = "Pittsburg Center";
+pub const STATION_FULL_PLEASANT_HILL: &str = "Pleasant Hill";
+pub const STATION_FULL_POWELL_ST: &str = "Powell St. (SF)";
+pub const STATION_FULL_RICHMOND: &str = "Richmond";
+pub const STATION_FULL_ROCKRIDGE: &str = "Rockridge (Oakland)";
+pub const STATION_FULL_SAN_BRUNO: &str = "San Bruno";
+pub const STATION_FULL_SAN_FRANCISCO_INTL_AIRPORT: &str = "San Francisco Int'l Airport";
+pub const STATION_FULL_SAN_LEANDRO: &str = "San Leandro";
+pub const STATION_FULL_SOUTH_HAYWARD: &str = "South Hayward";
+pub const STATION_FULL_SOUTH_SAN_FRANCISCO: &str = "South San Francisco";
+pub const STATION_FULL_UNION_CITY: &str = "Union City";
+pub const STATION_FULL_WARM_SPRINGS_SOUTH_FREMONT: &str = "Warm Springs/South Fremont";
+pub const STATION_FULL_WALNUT_CREEK: &str = "Walnut Creek";
+pub const STATION_FULL_WEST_DUBLIN: &str = "West Dublin";
+pub const STATION_FULL_WEST_OAKLAND: &str = "West Oakland";
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Station {
@@ -261,7 +261,7 @@ impl Station {
         }
     }
 
-    pub fn to_abbr(&self) -> &'static str {
+    pub fn to_abbr(&self) -> &str {
         match self {
             Station::OaklandCityCenter12thSt => STATION_ABBR_OAKLAND_CITY_CENTER12TH_ST,
             Station::SFMission16thSt => STATION_ABBR_SF_MISSION16TH_ST,
@@ -314,7 +314,7 @@ impl Station {
         }
     }
 
-    pub fn to_full(&self) -> &'static str {
+    pub fn to_full(&self) -> &str {
         match self {
             Station::OaklandCityCenter12thSt => STATION_FULL_OAKLAND_CITY_CENTER12TH_ST,
             Station::SFMission16thSt => STATION_FULL_SF_MISSION16TH_ST,
@@ -369,20 +369,20 @@ impl Station {
 }
 
 impl TryFrom<String> for Station {
-    type Error = &'static str;
+    type Error = anyhow::Error;
 
     fn try_from(station_string: String) -> std::result::Result<Self, Self::Error> {
         let abbr = Station::from_abbr(&station_string);
-        if abbr.is_ok() {
-            return Ok(abbr.unwrap());
+        if let Ok(station) = abbr {
+            return Ok(station);
         }
 
         let full = Station::from_full(&station_string);
-        if full.is_ok() {
-            return Ok(full.unwrap());
+        if let Ok(station) = full {
+            return Ok(station);
         }
 
-        Err("Does not match any station")
+        full
     }
 }
 
@@ -399,6 +399,6 @@ impl<'de> Deserialize<'de> for Station {
         where D: Deserializer<'de>
     {
         let s = String::deserialize(deserializer)?;
-        Station::try_from(s).map_err(|e| serde::de::Error::custom(e))
+        Station::try_from(s).map_err(serde::de::Error::custom)
     }
 }

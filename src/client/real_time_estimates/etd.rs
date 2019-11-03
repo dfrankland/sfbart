@@ -68,9 +68,9 @@ pub enum EtdOptions {
 }
 
 
-const URL_ROOT: &'static str = "https://api.bart.gov/api/etd.aspx?cmd=etd&json=y";
+const URL_ROOT: &str = "https://api.bart.gov/api/etd.aspx?cmd=etd&json=y";
 pub fn url<T: AsRef<str>>(options: &EtdOptions, key: Option<T>) -> String {
-    let url_with_key = format!("{}&key={}", URL_ROOT, key.map(|k| String::from(k.as_ref())).unwrap_or(String::from(PUBLIC_KEY)));
+    let url_with_key = format!("{}&key={}", URL_ROOT, key.map(|k| String::from(k.as_ref())).unwrap_or_else(|| String::from(PUBLIC_KEY)));
     match options {
         EtdOptions::OriginAll => format!("{}&orig=ALL", url_with_key),
         EtdOptions::OriginAndDirectionOrPlatform(station, direction_or_platform) => {
