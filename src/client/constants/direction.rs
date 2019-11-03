@@ -1,5 +1,5 @@
-use anyhow::{Result, anyhow};
-use serde::{Serialize, Serializer, Deserialize, Deserializer};
+use anyhow::{anyhow, Result};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::TryFrom;
 
 pub const DIRECTION_CODE_NORTHBOUND: &str = "n";
@@ -66,7 +66,8 @@ impl TryFrom<String> for Direction {
 
 impl Serialize for Direction {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer
+    where
+        S: Serializer,
     {
         serializer.serialize_str(self.to_code())
     }
@@ -74,7 +75,8 @@ impl Serialize for Direction {
 
 impl<'de> Deserialize<'de> for Direction {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
         Direction::try_from(s).map_err(serde::de::Error::custom)

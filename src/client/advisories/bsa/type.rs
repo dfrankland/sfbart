@@ -1,6 +1,6 @@
-use serde::{Serialize, Serializer, Deserialize, Deserializer};
+use anyhow::{anyhow, Result};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::TryFrom;
-use anyhow::{Result, anyhow};
 
 pub const BSA_TYPE_DELAY: &str = "DELAY";
 pub const BSA_TYPE_EMERGENCY: &str = "EMERGENCY";
@@ -8,7 +8,7 @@ pub const BSA_TYPE_EMERGENCY: &str = "EMERGENCY";
 #[derive(Debug, Clone, PartialEq)]
 pub enum BsaType {
     Delay,
-    Emergency
+    Emergency,
 }
 
 impl BsaType {
@@ -38,7 +38,8 @@ impl TryFrom<String> for BsaType {
 
 impl Serialize for BsaType {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer
+    where
+        S: Serializer,
     {
         serializer.serialize_str(self.to_code())
     }
@@ -46,7 +47,8 @@ impl Serialize for BsaType {
 
 impl<'de> Deserialize<'de> for BsaType {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
         BsaType::try_from(s).map_err(serde::de::Error::custom)

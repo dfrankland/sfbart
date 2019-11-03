@@ -1,5 +1,5 @@
-use warp::Filter;
 use futures::{FutureExt, StreamExt};
+use warp::Filter;
 
 #[tokio::main]
 async fn main() {

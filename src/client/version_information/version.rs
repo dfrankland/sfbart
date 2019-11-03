@@ -1,7 +1,7 @@
 use crate::client::constants::PUBLIC_KEY;
-use serde::{Serialize, Deserialize};
-use reqwest;
 use anyhow::Result;
+use reqwest;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -18,7 +18,11 @@ struct Root {
 }
 
 pub fn url<T: AsRef<str>>(key: Option<T>) -> String {
-    format!("https://api.bart.gov/api/version.aspx?cmd=stns&key={}&json=y", key.map(|k| String::from(k.as_ref())).unwrap_or_else(|| String::from(PUBLIC_KEY)))
+    format!(
+        "https://api.bart.gov/api/version.aspx?cmd=stns&key={}&json=y",
+        key.map(|k| String::from(k.as_ref()))
+            .unwrap_or_else(|| String::from(PUBLIC_KEY))
+    )
 }
 
 pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<Version> {
@@ -28,10 +32,15 @@ pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<Version> {
 
 #[tokio::test]
 async fn version() {
-    assert_eq!(call::<&str>(None).await.unwrap(), Version {
-        api_version: String::from("3.10"),
-        copyright: String::from("Copyright 2019 Bay Area Rapid Transit District"),
-        license: String::from("http://www.bart.gov/schedules/developers/developer-license-agreement"),
-        message: String::from(""),
-    })
+    assert_eq!(
+        call::<&str>(None).await.unwrap(),
+        Version {
+            api_version: String::from("3.10"),
+            copyright: String::from("Copyright 2019 Bay Area Rapid Transit District"),
+            license: String::from(
+                "http://www.bart.gov/schedules/developers/developer-license-agreement"
+            ),
+            message: String::from(""),
+        }
+    )
 }

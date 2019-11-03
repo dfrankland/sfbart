@@ -1,5 +1,5 @@
-use anyhow::{Result, anyhow};
-use serde::{Serialize, Serializer, Deserialize, Deserializer};
+use anyhow::{anyhow, Result};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::convert::TryFrom;
 
 pub const STATION_ABBR_OAKLAND_CITY_CENTER12TH_ST: &str = "12th";
@@ -388,7 +388,8 @@ impl TryFrom<String> for Station {
 
 impl Serialize for Station {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer
+    where
+        S: Serializer,
     {
         serializer.serialize_str(self.to_abbr())
     }
@@ -396,7 +397,8 @@ impl Serialize for Station {
 
 impl<'de> Deserialize<'de> for Station {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
         Station::try_from(s).map_err(serde::de::Error::custom)

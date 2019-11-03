@@ -1,10 +1,10 @@
 pub mod r#type;
 
-use crate::client::constants::PUBLIC_KEY;
-use serde::{Serialize, Deserialize, Deserializer};
-use reqwest;
-use anyhow::Result;
 use self::r#type::BsaType;
+use crate::client::constants::PUBLIC_KEY;
+use anyhow::Result;
+use reqwest;
+use serde::{Deserialize, Deserializer, Serialize};
 
 fn extract_cdata_section<'de, D>(deserializer: D) -> std::result::Result<String, D::Error>
 where
@@ -28,7 +28,7 @@ pub struct Bsa {
     pub description: String,
     #[serde(deserialize_with = "extract_cdata_section")]
     pub sms_text: String,
-    pub posted: Option<String>, // Should be a chrono DateTime
+    pub posted: Option<String>,  // Should be a chrono DateTime
     pub expires: Option<String>, // Should be a chrono DateTime
 }
 
@@ -46,7 +46,11 @@ struct Root {
 }
 
 pub fn url<T: AsRef<str>>(key: Option<T>) -> String {
-    format!("https://api.bart.gov/api/bsa.aspx?cmd=bsa&key={}&json=y", key.map(|k| String::from(k.as_ref())).unwrap_or_else(|| String::from(PUBLIC_KEY)))
+    format!(
+        "https://api.bart.gov/api/bsa.aspx?cmd=bsa&key={}&json=y",
+        key.map(|k| String::from(k.as_ref()))
+            .unwrap_or_else(|| String::from(PUBLIC_KEY))
+    )
 }
 
 pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<BsaResponse> {
