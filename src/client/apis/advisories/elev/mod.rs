@@ -1,22 +1,10 @@
 pub mod r#type;
 
 use self::r#type::ElevType;
-use crate::client::constants::PUBLIC_KEY;
+use crate::client::{constants::PUBLIC_KEY, serde_helpers::extract_cdata_section};
 use anyhow::Result;
 use reqwest;
-use serde::{Deserialize, Deserializer, Serialize};
-
-fn extract_cdata_section<'de, D>(deserializer: D) -> std::result::Result<String, D::Error>
-where
-    D: Deserializer<'de>,
-{
-    #[derive(Deserialize)]
-    struct CDATASection {
-        #[serde(rename = "#cdata-section")]
-        inner: String,
-    }
-    CDATASection::deserialize(deserializer).map(|cdata_section| cdata_section.inner)
-}
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Elev {

@@ -10,3 +10,15 @@ where
     let s = String::deserialize(deserializer)?;
     T::from_str(&s).map_err(serde::de::Error::custom)
 }
+
+pub fn extract_cdata_section<'de, D>(deserializer: D) -> std::result::Result<String, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    #[derive(Deserialize)]
+    struct CDATASection {
+        #[serde(rename = "#cdata-section")]
+        inner: String,
+    }
+    CDATASection::deserialize(deserializer).map(|cdata_section| cdata_section.inner)
+}
