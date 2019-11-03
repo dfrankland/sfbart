@@ -1,4 +1,4 @@
-use crate::client::constants::{direction::Direction, station::Station, PUBLIC_KEY};
+use crate::client::constants::{direction::Direction, station::Station, PUBLIC_KEY, color::Color};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};
@@ -9,8 +9,8 @@ pub struct EtdEstimate {
     platform: String, // Should be i32
     direction: Direction,
     length: String,   // Should be i32
-    color: String,    // Should be color enum
-    hexcolor: String, // Should be color enum
+    color: Color,
+    hexcolor: Color,
     bikeflag: String, // Should be boolean
     delay: String,    // Should be i32
 }
