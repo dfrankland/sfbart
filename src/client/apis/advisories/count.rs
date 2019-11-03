@@ -1,18 +1,7 @@
-use crate::client::constants::PUBLIC_KEY;
+use crate::client::{constants::PUBLIC_KEY, serde_helpers::from_str};
 use anyhow::Result;
 use reqwest;
-use serde::{Deserialize, Deserializer, Serialize};
-use std::{fmt::Display, str::FromStr};
-
-fn from_str<'de, T, D>(deserializer: D) -> Result<T, D::Error>
-where
-    T: FromStr,
-    T::Err: Display,
-    D: Deserializer<'de>,
-{
-    let s = String::deserialize(deserializer)?;
-    T::from_str(&s).map_err(serde::de::Error::custom)
-}
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Count {

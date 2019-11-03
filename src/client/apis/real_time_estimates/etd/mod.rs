@@ -1,18 +1,24 @@
-use crate::client::constants::{direction::Direction, station::Station, PUBLIC_KEY, color::Color};
+pub mod minutes;
+
+use crate::client::{constants::{direction::Direction, station::Station, PUBLIC_KEY, color::Color}, serde_helpers::from_str};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};
+use self::minutes::EtdEstimateMinutes;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EtdEstimate {
-    minutes: String,  // Should be i32
-    platform: String, // Should be i32
+    minutes: EtdEstimateMinutes,
+    #[serde(deserialize_with = "from_str")]
+    platform: i32,
     direction: Direction,
-    length: String,   // Should be i32
+    #[serde(deserialize_with = "from_str")]
+    length: i32,
     color: Color,
     hexcolor: Color,
     bikeflag: String, // Should be boolean
-    delay: String,    // Should be i32
+    #[serde(deserialize_with = "from_str")]
+    delay: i32,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
