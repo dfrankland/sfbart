@@ -20,6 +20,17 @@ where
     Ok(number != 0)
 }
 
+pub fn deserialize_option<'de, T, D>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    T: Deserialize<'de>,
+    D: Deserializer<'de>,
+{
+    if let Ok(v) = T::deserialize(deserializer) {
+        return Ok(Some(v));
+    }
+    Ok(None)
+}
+
 pub fn extract_cdata_section<'de, D>(deserializer: D) -> std::result::Result<String, D::Error>
 where
     D: Deserializer<'de>,

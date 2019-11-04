@@ -2,7 +2,7 @@ pub mod minutes;
 
 use self::minutes::EtdEstimateMinutes;
 use crate::client::{
-    constants::{color::Color, direction::Direction, station::Station, PUBLIC_KEY},
+    constants::{color::Color, direction::Direction, station::Station, PUBLIC_KEY, datetime::{Date, Time, deserialize_with_tz}},
     serde_helpers::{from_str, bool_from_number_str},
 };
 use anyhow::Result;
@@ -47,8 +47,9 @@ pub struct EtdStation {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EtdResponse {
-    pub date: String, // Should be chrono NaiveDate
-    pub time: String, // Should be chrono NaiveTime
+    pub date: Date,
+    #[serde(deserialize_with = "deserialize_with_tz")]
+    pub time: Time,
     pub station: Vec<EtdStation>,
     pub message: String,
 }

@@ -1,12 +1,13 @@
-use crate::client::{constants::PUBLIC_KEY, serde_helpers::from_str};
+use crate::client::{constants::{PUBLIC_KEY, datetime::{Date, Time, deserialize_with_tz}}, serde_helpers::from_str};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Count {
-    pub date: String, // Should be a chrono NaiveDate
-    pub time: String, // Should be a chrono NaiveTime
+    pub date: Date,
+    #[serde(deserialize_with = "deserialize_with_tz")]
+    pub time: Time,
     #[serde(deserialize_with = "from_str")]
     pub traincount: i32,
     pub message: String,

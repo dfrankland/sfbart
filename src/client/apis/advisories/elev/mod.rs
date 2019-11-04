@@ -1,7 +1,7 @@
 pub mod r#type;
 
 use self::r#type::ElevType;
-use crate::client::{constants::PUBLIC_KEY, serde_helpers::extract_cdata_section};
+use crate::client::{constants::{PUBLIC_KEY, datetime::{Date, Time, DateTime, deserialize_with_tz}}, serde_helpers::{extract_cdata_section, deserialize_option}};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};
@@ -16,14 +16,17 @@ pub struct Elev {
     pub description: String,
     #[serde(deserialize_with = "extract_cdata_section")]
     pub sms_text: String,
-    pub posted: Option<String>,  // Should be a chrono DateTime
-    pub expires: Option<String>, // Should be a chrono DateTime
+    #[serde(deserialize_with = "deserialize_option")]
+    pub posted: Option<DateTime>,
+    #[serde(deserialize_with = "deserialize_option")]
+    pub expires: Option<DateTime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ElevResponse {
-    pub date: String, // Should be a chrono NaiveDate
-    pub time: String, // Should be a chrono NaiveTime
+    pub date: Date,
+    #[serde(deserialize_with = "deserialize_with_tz")]
+    pub time: Time,
     pub bsa: Vec<Elev>,
     pub message: String,
 }
@@ -49,5 +52,5 @@ pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<ElevResponse> {
 #[tokio::test]
 async fn elev() {
     let reponse = call::<&str>(None).await.unwrap();
-    assert_eq!(reponse.time.is_empty(), false);
+    assert_eq!(reponse.time.time_zone.is_some(), true);
 }
