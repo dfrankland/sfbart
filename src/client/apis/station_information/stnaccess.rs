@@ -1,9 +1,5 @@
 use crate::client::{
-    constants::{
-        datetime::Time,
-        station::Station as StationConstant,
-        PUBLIC_KEY,
-    },
+    constants::{datetime::Time, station::Station as StationConstant, PUBLIC_KEY},
     serde_helpers::{bool_from_number_str, extract_cdata_section},
 };
 use anyhow::Result;

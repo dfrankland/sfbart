@@ -164,7 +164,12 @@ impl Time {
 impl fmt::Display for Time {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if let Some(time_zone) = &self.time_zone {
-            write!(f, "{} {}", self.time.format(CHRONO_TIMEFULL_FORMAT), time_zone)
+            write!(
+                f,
+                "{} {}",
+                self.time.format(CHRONO_TIMEFULL_FORMAT),
+                time_zone
+            )
         } else {
             write!(f, "{}", self.time.format(CHRONO_TIMEFULL_FORMAT))
         }
