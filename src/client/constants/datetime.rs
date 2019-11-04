@@ -7,8 +7,9 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use std::fmt;
 
 pub const CHRONO_DATE_FORMAT: &str = "%m/%d/%Y";
-pub const CHRONO_TIME_FORMAT: &str = "%r";
-pub const CHRONO_TIMEWEIRD_FORMAT: &str = "%H:%M:%S %p";
+pub const CHRONO_TIMEFULL_FORMAT: &str = "%r";
+pub const CHRONO_TIMEFULLWEIRD_FORMAT: &str = "%H:%M:%S %p";
+pub const CHRONO_TIMESHORT_FORMAT: &str = "%l:%M %p";
 pub const CHRONO_DATETIME_FORMAT: &str = "%a %b %d %Y %I:%M %p";
 
 pub const CHRONO_DATE_LENGTH: usize = 10;
@@ -114,7 +115,7 @@ pub struct Time {
 }
 
 impl Time {
-    pub fn from_string_with_tz<T: AsRef<str>>(string: T) -> Result<Time> {
+    pub fn from_full_string_with_tz<T: AsRef<str>>(string: T) -> Result<Time> {
         let parts: Vec<&str> = string.as_ref().rsplitn(2, ' ').collect();
         if parts.len() != 2 {
             return Err(anyhow!("String is not formatted correctly with spaces"));
@@ -122,11 +123,11 @@ impl Time {
         let time_zone = TimeZone::from_string(parts[0])?;
         let time = {
             let time_string = &parts[1][0..CHRONO_TIME_LENGTH];
-            let weird = NaiveTime::parse_from_str(time_string, CHRONO_TIMEWEIRD_FORMAT);
+            let weird = NaiveTime::parse_from_str(time_string, CHRONO_TIMEFULLWEIRD_FORMAT);
             if let Ok(time) = weird {
                 time
             } else {
-                NaiveTime::parse_from_str(time_string, CHRONO_TIME_FORMAT)?
+                NaiveTime::parse_from_str(time_string, CHRONO_TIMEFULL_FORMAT)?
             }
         };
         Ok(Time {
@@ -135,16 +136,24 @@ impl Time {
         })
     }
 
-    pub fn from_string_without_tz<T: AsRef<str>>(string: T) -> Result<Time> {
+    pub fn from_full_string_without_tz<T: AsRef<str>>(string: T) -> Result<Time> {
         let time = {
             let time_string = &string.as_ref()[0..CHRONO_TIME_LENGTH];
-            let weird = NaiveTime::parse_from_str(time_string, CHRONO_TIMEWEIRD_FORMAT);
+            let weird = NaiveTime::parse_from_str(time_string, CHRONO_TIMEFULLWEIRD_FORMAT);
             if let Ok(time) = weird {
                 time
             } else {
-                NaiveTime::parse_from_str(time_string, CHRONO_TIME_FORMAT)?
+                NaiveTime::parse_from_str(time_string, CHRONO_TIMEFULL_FORMAT)?
             }
         };
+        Ok(Time {
+            time,
+            time_zone: None,
+        })
+    }
+
+    pub fn from_short_string_without_tz<T: AsRef<str>>(string: T) -> Result<Time> {
+        let time = NaiveTime::parse_from_str(string.as_ref(), CHRONO_TIMESHORT_FORMAT)?;
         Ok(Time {
             time,
             time_zone: None,
@@ -155,9 +164,9 @@ impl Time {
 impl fmt::Display for Time {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if let Some(time_zone) = &self.time_zone {
-            write!(f, "{} {}", self.time.format(CHRONO_TIME_FORMAT), time_zone)
+            write!(f, "{} {}", self.time.format(CHRONO_TIMEFULL_FORMAT), time_zone)
         } else {
-            write!(f, "{}", self.time.format(CHRONO_TIME_FORMAT))
+            write!(f, "{}", self.time.format(CHRONO_TIMEFULL_FORMAT))
         }
     }
 }
@@ -176,7 +185,7 @@ where
     D: Deserializer<'de>,
 {
     let s = String::deserialize(deserializer)?;
-    Time::from_string_with_tz(s).map_err(serde::de::Error::custom)
+    Time::from_full_string_with_tz(s).map_err(serde::de::Error::custom)
 }
 
 pub fn deserialize_without_tz<'de, D>(deserializer: D) -> Result<Time, D::Error>
@@ -184,7 +193,7 @@ where
     D: Deserializer<'de>,
 {
     let s = String::deserialize(deserializer)?;
-    Time::from_string_without_tz(s).map_err(serde::de::Error::custom)
+    Time::from_full_string_without_tz(s).map_err(serde::de::Error::custom)
 }
 
 #[derive(Debug, Clone, PartialEq)]
