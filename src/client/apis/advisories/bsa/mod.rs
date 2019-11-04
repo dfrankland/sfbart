@@ -1,7 +1,13 @@
 pub mod r#type;
 
 use self::r#type::BsaType;
-use crate::client::{constants::{PUBLIC_KEY, datetime::{Date, Time, DateTime, deserialize_with_tz}}, serde_helpers::extract_cdata_section};
+use crate::client::{
+    constants::{
+        datetime::{deserialize_with_tz, Date, DateTime, Time},
+        PUBLIC_KEY,
+    },
+    serde_helpers::extract_cdata_section,
+};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};

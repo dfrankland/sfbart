@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use std::{convert::TryFrom, str::FromStr, fmt};
+use std::{convert::TryFrom, fmt, str::FromStr};
 
 pub const LEAVING_STRING: &str = "Leaving";
 pub const LEAVING_NUMBER: i32 = 0;

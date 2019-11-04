@@ -1,4 +1,10 @@
-use crate::client::{constants::{PUBLIC_KEY, datetime::{Date, Time, deserialize_with_tz}}, serde_helpers::from_str};
+use crate::client::{
+    constants::{
+        datetime::{deserialize_with_tz, Date, Time},
+        PUBLIC_KEY,
+    },
+    serde_helpers::from_str,
+};
 use anyhow::Result;
 use reqwest;
 use serde::{Deserialize, Serialize};

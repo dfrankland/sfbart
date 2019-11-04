@@ -1,7 +1,10 @@
+use anyhow::{anyhow, Result};
+use chrono::{
+    DateTime as ChronoDateTime, FixedOffset, LocalResult, NaiveDate, NaiveDateTime, NaiveTime,
+    TimeZone as ChronoTimeZone,
+};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use chrono::{DateTime as ChronoDateTime, TimeZone as ChronoTimeZone, NaiveDate, NaiveTime, NaiveDateTime, FixedOffset, LocalResult};
 use std::fmt;
-use anyhow::{Result, anyhow};
 
 pub const CHRONO_DATE_FORMAT: &str = "%m/%d/%Y";
 pub const CHRONO_TIME_FORMAT: &str = "%r";
@@ -33,20 +36,31 @@ impl DateTime {
             return Err(anyhow!("String is not formatted correctly with spaces"));
         }
         let time_zone = TimeZone::from_string(parts[0])?;
-        let local_datetime = NaiveDateTime::parse_from_str(&parts[1][0..CHRONO_DATETIME_LENGTH], CHRONO_DATETIME_FORMAT)?;
-        match time_zone.to_fixed_offset().from_local_datetime(&local_datetime) {
+        let local_datetime = NaiveDateTime::parse_from_str(
+            &parts[1][0..CHRONO_DATETIME_LENGTH],
+            CHRONO_DATETIME_FORMAT,
+        )?;
+        match time_zone
+            .to_fixed_offset()
+            .from_local_datetime(&local_datetime)
+        {
             LocalResult::Single(datetime) => Ok(DateTime {
                 inner: datetime,
                 time_zone,
             }),
-            _ => Err(anyhow!("Date was ambigous or invalid"))
+            _ => Err(anyhow!("Date was ambigous or invalid")),
         }
     }
 }
 
 impl fmt::Display for DateTime {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} {}", self.inner.format(CHRONO_DATETIME_FORMAT), self.time_zone)
+        write!(
+            f,
+            "{} {}",
+            self.inner.format(CHRONO_DATETIME_FORMAT),
+            self.time_zone
+        )
     }
 }
 
@@ -87,7 +101,8 @@ impl<'de> Deserialize<'de> for Date {
         D: Deserializer<'de>,
     {
         let s = &String::deserialize(deserializer)?[0..CHRONO_DATE_LENGTH];
-        let naive_date = NaiveDate::parse_from_str(s, CHRONO_DATE_FORMAT).map_err(serde::de::Error::custom)?;
+        let naive_date =
+            NaiveDate::parse_from_str(s, CHRONO_DATE_FORMAT).map_err(serde::de::Error::custom)?;
         Ok(Date(naive_date))
     }
 }
@@ -114,7 +129,10 @@ impl Time {
                 NaiveTime::parse_from_str(time_string, CHRONO_TIME_FORMAT)?
             }
         };
-        Ok(Time { time, time_zone: Some(time_zone) })
+        Ok(Time {
+            time,
+            time_zone: Some(time_zone),
+        })
     }
 
     pub fn from_string_without_tz<T: AsRef<str>>(string: T) -> Result<Time> {
@@ -127,7 +145,10 @@ impl Time {
                 NaiveTime::parse_from_str(time_string, CHRONO_TIME_FORMAT)?
             }
         };
-        Ok(Time { time, time_zone: None })
+        Ok(Time {
+            time,
+            time_zone: None,
+        })
     }
 }
 

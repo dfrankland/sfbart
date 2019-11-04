@@ -2,8 +2,14 @@ pub mod minutes;
 
 use self::minutes::EtdEstimateMinutes;
 use crate::client::{
-    constants::{color::Color, direction::Direction, station::Station, PUBLIC_KEY, datetime::{Date, Time, deserialize_with_tz}},
-    serde_helpers::{from_str, bool_from_number_str},
+    constants::{
+        color::Color,
+        datetime::{deserialize_with_tz, Date, Time},
+        direction::Direction,
+        station::Station,
+        PUBLIC_KEY,
+    },
+    serde_helpers::{bool_from_number_str, from_str},
 };
 use anyhow::Result;
 use reqwest;
