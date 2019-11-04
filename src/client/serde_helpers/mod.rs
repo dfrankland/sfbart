@@ -31,14 +31,15 @@ where
     Ok(None)
 }
 
-pub fn extract_cdata_section<'de, D>(deserializer: D) -> std::result::Result<String, D::Error>
+pub fn extract_cdata_section<'de, T, D>(deserializer: D) -> std::result::Result<T, D::Error>
 where
+    T: Deserialize<'de>,
     D: Deserializer<'de>,
 {
     #[derive(Deserialize)]
-    struct CDATASection {
+    struct CDATASection<T> {
         #[serde(rename = "#cdata-section")]
-        inner: String,
+        inner: T,
     }
     CDATASection::deserialize(deserializer).map(|cdata_section| cdata_section.inner)
 }

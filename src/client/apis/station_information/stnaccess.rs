@@ -11,7 +11,7 @@ pub fn extract_fill_time<'de, D>(deserializer: D) -> std::result::Result<Option<
 where
     D: Deserializer<'de>,
 {
-    if let Ok(time_string) = extract_cdata_section(deserializer) {
+    if let Ok(time_string) = extract_cdata_section::<String, D>(deserializer) {
         if let Ok(time) = Time::from_short_string_without_tz(time_string) {
             return Ok(Some(time));
         }
