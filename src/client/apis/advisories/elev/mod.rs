@@ -57,6 +57,6 @@ pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<ElevResponse> {
 
 #[tokio::test]
 async fn elev() {
-    let reponse = call::<&str>(None).await.unwrap();
-    assert_eq!(reponse.time.time_zone.is_some(), true);
+    let response = call::<&str>(None).await.unwrap();
+    assert_eq!(response.time.time_zone.is_some(), true);
 }

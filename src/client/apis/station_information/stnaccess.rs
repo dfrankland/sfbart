@@ -96,6 +96,6 @@ pub async fn call<T: AsRef<str>>(
 
 #[tokio::test]
 async fn stnaccess() {
-    let reponse = call::<&str>(StationConstant::Orinda, None).await.unwrap();
-    assert_eq!(reponse.stations.station.fill_time.is_some(), true);
+    let response = call::<&str>(StationConstant::Orinda, None).await.unwrap();
+    assert_eq!(response.stations.station.fill_time.is_some(), true);
 }

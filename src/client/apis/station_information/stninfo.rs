@@ -82,8 +82,8 @@ pub async fn call<T: AsRef<str>>(
 
 #[tokio::test]
 async fn stninfo() {
-    let reponse = call::<&str>(StationConstant::MacArthur, None)
+    let response = call::<&str>(StationConstant::MacArthur, None)
         .await
         .unwrap();
-    assert_eq!(reponse.stations.station.north_platforms.platform[0], "1");
+    assert_eq!(response.stations.station.north_platforms.platform[0], "1");
 }

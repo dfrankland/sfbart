@@ -47,9 +47,9 @@ pub async fn call<T: AsRef<str>>(key: Option<T>) -> Result<StationsResponse> {
 
 #[tokio::test]
 async fn stns() {
-    let reponse = call::<&str>(None).await.unwrap();
+    let response = call::<&str>(None).await.unwrap();
     assert_eq!(
-        reponse.stations.station[0].abbr,
+        response.stations.station[0].abbr,
         StationConstant::OaklandCityCenter12thSt
     );
 }

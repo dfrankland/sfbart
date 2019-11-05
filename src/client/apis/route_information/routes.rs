@@ -87,6 +87,6 @@ pub async fn call<T: AsRef<str>>(
 
 #[tokio::test]
 async fn routes() {
-    let reponse = call::<&str>(&None, None).await.unwrap();
-    assert_eq!(reponse.routes.route[0].abbr, "ANTC-SFIA");
+    let response = call::<&str>(&None, None).await.unwrap();
+    assert_eq!(response.routes.route[0].abbr, "ANTC-SFIA");
 }
