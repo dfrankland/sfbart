@@ -4,15 +4,18 @@ use chrono::{
     TimeZone as ChronoTimeZone,
 };
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
-use std::fmt;
+use std::{convert::TryFrom, fmt};
 
 pub const CHRONO_DATE_FORMAT: &str = "%m/%d/%Y";
+pub const CHRONO_DATEWEIRD_FORMAT: &str = "%b %e, %Y";
 pub const CHRONO_TIMEFULL_FORMAT: &str = "%r";
 pub const CHRONO_TIMEFULLWEIRD_FORMAT: &str = "%H:%M:%S %p";
 pub const CHRONO_TIMESHORT_FORMAT: &str = "%l:%M %p";
 pub const CHRONO_DATETIME_FORMAT: &str = "%a %b %d %Y %I:%M %p";
 
 pub const CHRONO_DATE_LENGTH: usize = 10;
+pub const CHRONO_DATEWEIRDMAX_LENGTH: usize = 12;
+pub const CHRONO_DATEWEIRDMIN_LENGTH: usize = 11;
 pub const CHRONO_TIME_LENGTH: usize = 11;
 pub const CHRONO_DATETIME_LENGTH: usize = 24;
 
@@ -87,6 +90,33 @@ impl<'de> Deserialize<'de> for DateTime {
 #[derive(Debug, Clone, PartialEq)]
 pub struct Date(pub NaiveDate);
 
+impl TryFrom<String> for Date {
+    type Error = anyhow::Error;
+
+    fn try_from(date_string: String) -> std::result::Result<Self, Self::Error> {
+        let date_string_len = date_string.len();
+
+        if date_string_len == CHRONO_DATEWEIRDMAX_LENGTH
+            || date_string_len == CHRONO_DATEWEIRDMIN_LENGTH
+        {
+            if let Ok(naive_date) = NaiveDate::parse_from_str(&date_string, CHRONO_DATEWEIRD_FORMAT)
+            {
+                return Ok(Date(naive_date));
+            }
+        }
+
+        if date_string_len >= CHRONO_DATE_LENGTH {
+            if let Ok(naive_date) =
+                NaiveDate::parse_from_str(&date_string[0..CHRONO_DATE_LENGTH], CHRONO_DATE_FORMAT)
+            {
+                return Ok(Date(naive_date));
+            }
+        }
+
+        Err(anyhow!("Can't parse date"))
+    }
+}
+
 impl Serialize for Date {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -101,10 +131,8 @@ impl<'de> Deserialize<'de> for Date {
     where
         D: Deserializer<'de>,
     {
-        let s = &String::deserialize(deserializer)?[0..CHRONO_DATE_LENGTH];
-        let naive_date =
-            NaiveDate::parse_from_str(s, CHRONO_DATE_FORMAT).map_err(serde::de::Error::custom)?;
-        Ok(Date(naive_date))
+        let s = String::deserialize(deserializer)?;
+        Date::try_from(s).map_err(serde::de::Error::custom)
     }
 }
 
@@ -198,6 +226,11 @@ where
     D: Deserializer<'de>,
 {
     let s = String::deserialize(deserializer)?;
+
+    if let Ok(time) = Time::from_short_string_without_tz(&s) {
+        return Ok(time);
+    }
+
     Time::from_full_string_without_tz(s).map_err(serde::de::Error::custom)
 }
 
